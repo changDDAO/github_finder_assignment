@@ -1,0 +1,22 @@
+header {
+    height: 70px;
+    display: flex;
+    font-size: 40px;
+    text-align: center;
+    justify-content: center;
+    background-color: black;
+    padding: 3px;
+    z-index: 1;
+    top: 0;
+}
+header img{
+    height: 70px;
+    background-color: wheat;
+    
+}
+
+.title {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 70px;
+}

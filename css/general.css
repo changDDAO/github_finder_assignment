@@ -1,0 +1,30 @@
+body{
+    background-color: #3a1c52;
+    color: white;
+}
+.search_section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.search_section p{
+    font-size: 30px;
+    text-align: center;
+}
+form{
+    display: flex;
+    justify-content: center;
+}
+form input{
+    height: 40px;
+    width: 300px;
+    border-radius: 7px;
+}
+form button{
+    height: 47px;
+    width: 100px;
+    background-color: greenyellow;
+    margin-left: 10px;
+    border-radius: 10px;
+}

@@ -1,30 +1,49 @@
-let username_ele, avatar_ele, followers, following, repos_url,
-repos_cnt_ele, created_at_ele, search_button;
 
-class User{
-    constructor(user_info){
-        this.username = user_info.login;
-        this.lcoation = user_info.location;
-        this.company = user_info.company;
-        this.followers = user.info.followers;
-        this.following = user_info.following;
-        this.repos_url = user_info.repos_url;
-        this.avatar_url = user_info.avatar_url;
-        this.public_repos = public_repos;
-        this.created_at = created_at;
+class Finder {
+    constructor() {
+        this.url = "https://api.github.com/users/";
+
+    }
+    
+    bind_elements() {
+        this.username_ele = document.querySelector('.profile_username');
+        this.avatar_ele = document.querySelector('.profile_image_container');
+        this.followers = document.querySelector('.profile_followers');
+        this.following = document.querySelector('#follwing');
+        this.repos_url = document.querySelector('.latest_repos');
+        this.repos_cnt_ele = document.querySelector('.repo_count');
+        this.created_at_ele = document.querySelector('.user_since');
+        this.search_button = document.querySelector('.search_button');
+        this.username_inputbox_ele = document.querySelector('#username_inputbox');
     }
 }
 
-    
 
- function bind_elements(){
- username_ele = document.querySelector('.profile_username');
- avatar_ele = document.querySelector('.profile_image_container');
- followers = document.querySelector('.profile_followers');
- following = document.querySelector('#follwing');
- repos_url = document.querySelector('.latest_repos');
- repos_cnt_ele = document.querySelector('.repo_count');
- created_at_ele = document.querySelector('.user_since');
- search_button = document.querySelector('.search_button');
+
+async function fetchData(username) {
+    try {
+        const response = await fetch("https://api.github.com/users/" + username);
+        if (response.statusCode === 404) throw new Error("User not found");
+        user_data = await response.json();
+    } catch (e) {
+        console.log(e);
+        alert("Error fetching data. check username and try");
+    }
 }
+
+
+
+function bind_elements() {
+    username_ele = document.querySelector('.profile_username');
+    avatar_ele = document.querySelector('.profile_image_container');
+    followers = document.querySelector('.profile_followers');
+    following = document.querySelector('#follwing');
+    repos_url = document.querySelector('.latest_repos');
+    repos_cnt_ele = document.querySelector('.repo_count');
+    created_at_ele = document.querySelector('.user_since');
+    search_button = document.querySelector('.search_button');
+    username_inputbox_ele = document.querySelector('#username_inputbox');
+}
+User.init();
+
 

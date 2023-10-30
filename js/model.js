@@ -19,6 +19,7 @@ class Finder {
         this.company_ele = document.querySelector(".company_name");
         this.bio_ele = document.querySelector(".user_bio");
         this.location_ele = document.querySelector(".user_location");
+        this.blog_ele = document.querySelector(".user_blog");
     }
 
     init_form() {
@@ -62,7 +63,6 @@ class Finder {
     }
 
     show_user_info() {
-
         this.avatar_ele.src = this.user_data.avatar_url
         this.username_ele.innerText = `profile username : ${this.user_data.login}`
         this.repos_cnt_ele.innerText = `public repository count : ${this.user_data.public_repos}`
@@ -71,6 +71,8 @@ class Finder {
         this.company_ele.innerText = `company : ${this.user_data.company}`
         this.bio_ele.innerText = `bio : ${this.user_data.bio}`
         this.location_ele.innerText = `location : ${this.user_data.location}`
+        this.blog_ele.innerText = `blog : ${this.user_data.blog}`
+        this.blog_ele.href = this.user_data.blog
     }
 }
 const finder = new Finder()

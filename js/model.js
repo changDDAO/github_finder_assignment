@@ -1,6 +1,7 @@
 class Finder {
     constructor() {
         this.user_data = {}
+        this.user_repos ={}
         this.bind_elements()
         this.init_form()
 
@@ -20,6 +21,7 @@ class Finder {
         this.bio_ele = document.querySelector(".user_bio");
         this.location_ele = document.querySelector(".user_location");
         this.blog_ele = document.querySelector(".user_blog");
+        this.user_repos_ele = document.querySelector(".latest_repos");
     }
 
     init_form() {
@@ -49,12 +51,19 @@ class Finder {
             const response = await fetch(
                 "https://api.github.com/users/" + username
             )
+            const response2 =  await fetch(
+                "https://api.github.com/users/" + username + "/repos"
+            )
             // const user_data = await response.json()
             this.user_data = await response.json()
+            this.user_repos = await response2.json()
+            
 
             if (response.statusCode === 404) throw new Error("User not found")
+            if (response2.statusCode === 404) throw new Error("Not loading user repositories")
 
             this.show_user_info()
+            this.show_user_repos()
             // console.log(user_data)
         } catch (e) {
             console.log(e)
@@ -73,6 +82,36 @@ class Finder {
         this.location_ele.innerText = `location : ${this.user_data.location}`
         this.blog_ele.innerText = `blog : ${this.user_data.blog}`
         this.blog_ele.href = this.user_data.blog
+        
+    }
+    show_user_repos() {
+        if(this.user_repos_ele.childElementCount>0){
+            while(this.user_repos_ele.childElementCount!=0){
+                this.user_repos_ele.removeChild(this.user_repos_ele.firstChild)
+            }
+        }
+        
+        this.user_repos.sort((a,b)=> new Date(b.created_at) - new Date(a.created_at))
+        const recent_repos = this.user_repos.slice(0,5);
+        
+        recent_repos.forEach((repo)=>{
+            const repo_ele = document.createElement("div");
+            repo_ele.classList.add("repo_items");
+            
+            
+            const rep_name = document.createElement("a");
+            rep_name.innerText = repo.name;
+            rep_name.href = repo.html_url;
+            rep_name.style.color = "white";
+            rep_name.style.fontSize = "24px";
+            rep_name.style.textDecoration = "none";
+            repo_ele.appendChild(rep_name);
+            this.user_repos_ele.appendChild(repo_ele);
+        })
+
+
+
+        
     }
 }
 const finder = new Finder()

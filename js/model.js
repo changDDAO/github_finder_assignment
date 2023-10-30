@@ -3,7 +3,6 @@ class Finder {
     constructor() {
         this.bind_elements();
         this.init_form();
-        this.fetchData(this.input_value);
         this.show_user_info(this.user_data);
 
     }
@@ -17,19 +16,30 @@ class Finder {
         this.repos_cnt_ele = document.querySelector('.repo_count');
         this.created_at_ele = document.querySelector('.user_since');
         this.search_button = document.querySelector('.search_button');
-        this.username_inputbox_ele = document.querySelector('#username_inputbox');
+        this.username_inputbox_ele = document.querySelector('#username_input_box');
     }
 
     init_form(){
-        this.search_button.addEventListener('click', (e) => {
+        this.search_button.addEventListener('click', () => {
+            this.form_submit.bind(this);
+    })
+    this.username_inputbox_ele.addEventListener('keydown', (e) => {
+        if(e.key=== 'Enter') {
             e.preventDefault();
-            this.input_value = this.username_inputbox_ele.value;
-        });
-    }
+            this.form_submit();
+    }})
+}
+
+form_submit() {
+
+    this.fetchData(this.username_inputbox_ele.value);
+    this.username_inputbox_ele.value = '';
+}
 
     async fetchData(username) {
         try {
             const response = await fetch("https://api.github.com/users/" + username);
+            console.log(response);
             if (response.statusCode === 404) throw new Error("User not found");
             this.user_data = await response.json();
         } catch (e) {
@@ -40,14 +50,14 @@ class Finder {
 
     show_user_info(user_data){
         const user_img = document.createElement('img');
-        user_img.src = user_data.avatar_url;
+        user_img.src = `url(${user_data.avatar_url})`;
         this.avatar_ele.appendChild(user_img); //image 처리
 
-        this.username_ele.textContent = user_data.login;
-        this.followers.textContent = user_data.followers;
-        this.following.textContent = user_data.following;
-        this.repos_cnt_ele.textContent = user_data.public_repos;
-        this.created_at_ele.textContent = user_data.created_at;
+        this.username_ele.innertText = `${user_data.login}`;
+        this.followers.innertText = `${user_data.followers}`;
+        this.following.innertText = `${user_data.following}`;
+        this.repos_cnt_ele.innertText = `${user_data.public_repos}`;
+        this.created_at_ele.innertText = `${user_data.created_at}`;
         this.repos_url.href = user_data.html_url;
         this.username_inputbox_ele.innertText = '';
     }
